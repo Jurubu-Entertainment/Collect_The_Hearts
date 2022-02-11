@@ -1,0 +1,979 @@
+[gd_scene load_steps=27 format=2]
+
+[ext_resource path="res://Scripts/Main.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/Background/background_0000.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Background/background_0008.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Background/background_0001.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Background/background_0002.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Background/background_0007.png" type="Texture" id=7]
+[ext_resource path="res://Fonts/OpenDyslexic/OpenDyslexic-Regular.otf" type="DynamicFontData" id=8]
+[ext_resource path="res://Scripts/Level_Scene_Container.gd" type="Script" id=9]
+[ext_resource path="res://Levels/Right/Right_02.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Levels/Left/Left_01.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/Button_Sound.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Scenes/Title_Screen.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Assets/Sound/Party Horn - Sound Effect (HD).mp3" type="AudioStream" id=14]
+[ext_resource path="res://Assets/UI/PNG/grey_button14.png" type="Texture" id=15]
+[ext_resource path="res://Assets/UI/PNG/grey_button02.png" type="Texture" id=16]
+[ext_resource path="res://Assets/UI/PNG/grey_button15.png" type="Texture" id=17]
+[ext_resource path="res://Assets/Tiles/tile_0044.png" type="Texture" id=18]
+[ext_resource path="res://Levels/Left/Left_02.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Levels/Right/Right_01.tscn" type="PackedScene" id=20]
+[ext_resource path="res://Levels/Right/Right_03.tscn" type="PackedScene" id=21]
+[ext_resource path="res://Levels/Left/Left_03.tscn" type="PackedScene" id=22]
+
+[sub_resource type="DynamicFont" id=1]
+size = 48
+font_data = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 48
+use_mipmaps = true
+extra_spacing_char = -2
+font_data = ExtResource( 8 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "Appear"
+length = 1.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Control/AudioStreamPlayer:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Control:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.25 )
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../Player/Player/Camera2D/CPUParticles2D:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("../Player/Player/Camera2D/CPUParticles2D2:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "New Anim"
+
+[node name="Main" type="Node2D"]
+script = ExtResource( 1 )
+low = 1
+high = 3
+title = ExtResource( 13 )
+sound = ExtResource( 12 )
+
+[node name="Level" type="Node2D" parent="."]
+script = ExtResource( 9 )
+left_01 = ExtResource( 11 )
+left_02 = ExtResource( 19 )
+left_03 = ExtResource( 22 )
+right_01 = ExtResource( 20 )
+right_02 = ExtResource( 10 )
+right_03 = ExtResource( 21 )
+
+[node name="Left_Half" type="Node2D" parent="Level"]
+
+[node name="Right_Half" type="Node2D" parent="Level"]
+
+[node name="Player" type="Node2D" parent="."]
+
+[node name="Player" parent="Player" instance=ExtResource( 2 )]
+run_speed = 400
+jump_speed = -300
+gravity = 1000
+fric = 2.5
+
+[node name="Camera2D" parent="Player/Player" index="1"]
+limit_left = -228
+limit_top = -183
+smoothing_enabled = false
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Player/Player/Camera2D" index="0"]
+position = Vector2( 243, 129 )
+rotation = -2.35619
+emitting = false
+amount = 48
+lifetime = 3.0
+explosiveness = 1.0
+lifetime_randomness = 0.5
+local_coords = false
+texture = ExtResource( 18 )
+initial_velocity = 350.0
+initial_velocity_random = 0.5
+linear_accel = -100.0
+linear_accel_random = 0.5
+scale_amount = 0.5
+scale_amount_random = 0.5
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="Player/Player/Camera2D" index="1"]
+position = Vector2( -243, 129 )
+rotation = -0.785398
+emitting = false
+amount = 48
+lifetime = 3.0
+explosiveness = 1.0
+lifetime_randomness = 0.5
+local_coords = false
+texture = ExtResource( 18 )
+initial_velocity = 350.0
+initial_velocity_random = 0.5
+linear_accel = -100.0
+linear_accel_random = 0.5
+scale_amount = 0.5
+scale_amount_random = 0.5
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="CanvasLayer"]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="CanvasLayer/ParallaxBackground"]
+position = Vector2( 242, 141 )
+motion_mirroring = Vector2( 24, 0.01 )
+
+[node name="Background0000" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 10, -4 )
+texture = ExtResource( 3 )
+
+[node name="Background0001" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0000"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 5 )
+
+[node name="Background0002" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0000/Background0001"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 6 )
+
+[node name="Background0007" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0000/Background0001/Background0002"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 7 )
+
+[node name="Background0001" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 58, -4 )
+texture = ExtResource( 3 )
+
+[node name="Background0001" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0001"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 5 )
+
+[node name="Background0002" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0001/Background0001"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 6 )
+
+[node name="Background0007" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0001/Background0001/Background0002"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 7 )
+
+[node name="Background0002" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 106, -4 )
+texture = ExtResource( 3 )
+
+[node name="Background0001" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0002"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 5 )
+
+[node name="Background0002" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0002/Background0001"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 6 )
+
+[node name="Background0007" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0002/Background0001/Background0002"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 7 )
+
+[node name="Background0003" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 154, -4 )
+texture = ExtResource( 3 )
+
+[node name="Background0001" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0003"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 5 )
+
+[node name="Background0002" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0003/Background0001"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 6 )
+
+[node name="Background0007" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0003/Background0001/Background0002"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 7 )
+
+[node name="Background0004" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 202, -4 )
+texture = ExtResource( 3 )
+
+[node name="Background0001" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0004"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 5 )
+
+[node name="Background0002" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0004/Background0001"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 6 )
+
+[node name="Background0007" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0004/Background0001/Background0002"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 7 )
+
+[node name="Background0005" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 250, -4 )
+texture = ExtResource( 3 )
+
+[node name="Background0001" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0005"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 5 )
+
+[node name="Background0002" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0005/Background0001"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 6 )
+
+[node name="Background0007" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0005/Background0001/Background0002"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 7 )
+
+[node name="Background0006" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 298, -4 )
+texture = ExtResource( 3 )
+
+[node name="Background0001" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0006"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 5 )
+
+[node name="Background0002" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0006/Background0001"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 6 )
+
+[node name="Background0007" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0006/Background0001/Background0002"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 7 )
+
+[node name="Background0008" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 10, 116 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0008"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0008"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0033" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 10, 236 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0033"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0033"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0034" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 10, 260 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0034"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0034"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0035" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 58, 236 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0035"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0035"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0036" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 58, 260 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0036"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0036"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0037" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 106, 236 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0037"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0037"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0038" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 106, 260 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0038"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0038"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0039" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 154, 236 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0039"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0039"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0040" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 154, 260 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0040"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0040"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0041" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 202, 236 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0041"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0041"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0042" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 202, 260 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0042"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0042"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0043" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 250, 236 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0043"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0043"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0044" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 250, 260 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0044"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0044"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0045" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 298, 236 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0045"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0045"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0046" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 298, 260 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0046"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0046"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0047" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 346, 236 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0047"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0047"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0048" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 346, 260 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0048"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0048"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0049" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 394, 236 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0049"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0049"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0050" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 394, 260 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0050"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0050"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0051" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 442, 236 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0051"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0051"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0052" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 442, 260 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0052"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0052"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0053" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 490, 236 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0053"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0053"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0054" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 490, 260 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0054"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0054"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 58, 116 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0009"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0009"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 106, 116 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0010"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0010"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0011" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 154, 116 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0011"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0011"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0012" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 202, 116 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0012"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0012"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0013" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 250, 116 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0013"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0013"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0014" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 298, 116 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0014"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0014"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0015" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 10, 92 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0015"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0015"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0016" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 58, 92 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0016"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0016"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0017" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 106, 92 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0017"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0017"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0018" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 154, 92 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0018"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0018"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0019" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 202, 92 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0019"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0019"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0020" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 250, 92 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0020"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0020"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0021" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 298, 92 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0021"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0021"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0007" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 346, -4 )
+texture = ExtResource( 3 )
+
+[node name="Background0001" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0007"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 5 )
+
+[node name="Background0002" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0007/Background0001"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 6 )
+
+[node name="Background0007" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0007/Background0001/Background0002"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 7 )
+
+[node name="Background0022" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 346, 116 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0022"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0022"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0023" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 346, 92 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0023"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0023"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0024" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 394, -4 )
+texture = ExtResource( 3 )
+
+[node name="Background0001" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0024"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 5 )
+
+[node name="Background0002" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0024/Background0001"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 6 )
+
+[node name="Background0007" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0024/Background0001/Background0002"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 7 )
+
+[node name="Background0025" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 394, 116 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0025"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0025"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0026" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 394, 92 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0026"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0026"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0027" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 442, -4 )
+texture = ExtResource( 3 )
+
+[node name="Background0001" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0027"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 5 )
+
+[node name="Background0002" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0027/Background0001"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 6 )
+
+[node name="Background0007" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0027/Background0001/Background0002"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 7 )
+
+[node name="Background0028" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 442, 116 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0028"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0028"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0029" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 442, 92 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0029"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0029"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0030" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 490, -4 )
+texture = ExtResource( 3 )
+
+[node name="Background0001" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0030"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 5 )
+
+[node name="Background0002" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0030/Background0001"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 6 )
+
+[node name="Background0007" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0030/Background0001/Background0002"]
+position = Vector2( 0, 24 )
+texture = ExtResource( 7 )
+
+[node name="Background0031" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 490, 116 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0031"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0031"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Background0032" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+position = Vector2( 490, 92 )
+texture = ExtResource( 4 )
+
+[node name="Background0009" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0032"]
+position = Vector2( 0, 48 )
+texture = ExtResource( 4 )
+
+[node name="Background0010" type="Sprite" parent="CanvasLayer/ParallaxBackground/ParallaxLayer/Background0032"]
+position = Vector2( 0, 96 )
+texture = ExtResource( 4 )
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CanvasLayer/Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -262.5
+margin_top = -42.0
+margin_right = 262.5
+margin_bottom = 42.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 1
+custom_fonts/font = SubResource( 1 )
+text = "Happy Mother's Day!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quit" type="TextureButton" parent="CanvasLayer/Control"]
+self_modulate = Color( 1, 0.611765, 0.862745, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -252.0
+margin_top = 55.0
+margin_right = -62.0
+margin_bottom = 104.0
+texture_normal = ExtResource( 15 )
+texture_pressed = ExtResource( 16 )
+texture_hover = ExtResource( 17 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="RichTextLabel" parent="CanvasLayer/Control/Quit"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -30.0
+margin_top = -26.5
+margin_right = 82.0
+margin_bottom = 58.5
+rect_scale = Vector2( 0.527357, 0.527357 )
+mouse_filter = 2
+custom_constants/shadow_as_outline = 1
+custom_fonts/normal_font = SubResource( 2 )
+text = "Quit"
+fit_content_height = true
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Continue" type="TextureButton" parent="CanvasLayer/Control"]
+self_modulate = Color( 1, 0.611765, 0.862745, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 51.0
+margin_top = 55.0
+margin_right = 241.0
+margin_bottom = 104.0
+texture_normal = ExtResource( 15 )
+texture_pressed = ExtResource( 16 )
+texture_hover = ExtResource( 17 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="RichTextLabel" parent="CanvasLayer/Control/Continue"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -57.0
+margin_top = -26.5
+margin_right = 161.0
+margin_bottom = 58.5
+rect_scale = Vector2( 0.527357, 0.527357 )
+mouse_filter = 2
+custom_constants/shadow_as_outline = 1
+custom_fonts/normal_font = SubResource( 2 )
+text = "Continue"
+fit_content_height = true
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="CanvasLayer/Control"]
+stream = ExtResource( 14 )
+volume_db = 2.5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
+anims/Appear = SubResource( 3 )
+"anims/New Anim" = SubResource( 4 )
+
+[connection signal="pressed" from="CanvasLayer/Control/Quit" to="." method="_on_Quit_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Continue" to="." method="_on_Continue_pressed"]
+
+[editable path="Player/Player"]

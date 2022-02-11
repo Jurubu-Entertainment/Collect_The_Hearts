@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Party Horn - Sound Effect (HD).mp3-810780eb55a5203c197a1e47fcf16b9d.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sound/Party Horn - Sound Effect (HD).mp3"
+dest_files=[ "res://.import/Party Horn - Sound Effect (HD).mp3-810780eb55a5203c197a1e47fcf16b9d.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

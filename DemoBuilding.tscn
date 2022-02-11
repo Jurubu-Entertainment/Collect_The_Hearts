@@ -1,0 +1,75 @@
+[gd_scene load_steps=7 format=2]
+
+[sub_resource type="SpatialMaterial" id=3]
+albedo_color = Color( 0.0666667, 0.498039, 0.027451, 1 )
+roughness = 0.8
+
+[sub_resource type="PlaneMesh" id=4]
+material = SubResource( 3 )
+size = Vector2( 50, 50 )
+
+[sub_resource type="ConvexPolygonShape" id=5]
+points = PoolVector3Array( 25, 0, 25, -25, 0, 25, 25, 0, -25, -25, 0, -25 )
+
+[sub_resource type="GDScript" id=6]
+script/source = "extends Spatial
+
+onready var current_wall = $\"../Wall\".duplicate()
+onready var camera = $\"../Camera\"
+
+func _ready():
+	add_child(current_wall)
+
+func round_to_nearest(var to_round : float, var snap : int) -> float:
+	return snap * round(to_round / snap as float)
+
+func _physics_process(var _delta : float):
+	var mouse_pos = get_viewport().get_mouse_position()
+	var from = camera.project_ray_origin(mouse_pos)
+	var to = from + camera.project_ray_normal(mouse_pos) * 1000.0
+	var result = get_world().direct_space_state.intersect_ray(from, to)
+	if not result.empty():
+		current_wall.translation = result.position
+		current_wall.translation.y = 5
+		current_wall.translation.x = round_to_nearest(current_wall.translation.x, 10)
+		current_wall.translation.z = round_to_nearest(current_wall.translation.z, 10)
+	
+	if Input.is_action_just_pressed(\"ui_left\"):
+		current_wall.rotate_object_local(Vector3.UP, deg2rad(90))
+	elif Input.is_action_just_pressed(\"ui_right\"):
+		current_wall.rotate_object_local(Vector3.UP, deg2rad(-90))
+	
+	if Input.is_action_just_pressed(\"ui_accept\"):
+		current_wall = $\"../Wall\".duplicate()
+		add_child(current_wall)
+"
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_color = Color( 0.556863, 0.207843, 0.207843, 1 )
+roughness = 0.4
+
+[sub_resource type="CubeMesh" id=2]
+material = SubResource( 1 )
+size = Vector3( 10, 10, 1 )
+
+[node name="World" type="Spatial"]
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 0.707107, 0.353553, -0.612372, 0, 0.866025, 0.5, 0.707107, -0.353553, 0.612372, -20, 15, 20 )
+
+[node name="Floor" type="StaticBody" parent="."]
+
+[node name="MeshInstance" type="MeshInstance" parent="Floor"]
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Floor"]
+shape = SubResource( 5 )
+
+[node name="BuildingManager" type="Spatial" parent="."]
+script = SubResource( 6 )
+
+[node name="Wall" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 5, 0 )
+mesh = SubResource( 2 )
+material/0 = null
